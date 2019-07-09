@@ -1,0 +1,1 @@
+all: rf433daemon
