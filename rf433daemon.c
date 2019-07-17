@@ -30,6 +30,7 @@ struct switch_info switches[] = {
 	{ 0x52BE, "Salon" },
 	{ 0x3075, "Commande 1" },
 	{ 0xDC75, "Commande 2" },
+	{ 0x1331, "Commande 3" },
 	{ 0, NULL }
 };
 
@@ -155,7 +156,7 @@ static int run(int fd)
 		t = time(NULL);
 		tm = localtime(&t);
 		strftime(datestr, sizeof(datestr), "%c", tm);
-		printf("%s % 6s ", datestr, value);
+		printf("%s %06s ", datestr, value);
 		print_event(strtol(value, NULL, 16));
 	}
 }
