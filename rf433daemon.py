@@ -27,7 +27,13 @@ ch.setFormatter(formatter)
 logger.addHandler(ch)
 
 while True:
-    value = int(ser.readline(), 16)
+    line = ser.readline()
+    try:
+        value = int(line, 16)
+    except:
+        logger.info('Unknown event: ' + str(line) )
+        continue
+
     device = value >> 8
     command = value & 0xff
 
