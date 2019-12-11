@@ -4,6 +4,7 @@ import configparser
 import serial
 import io
 import logging
+import subprocess
 
 config = configparser.ConfigParser()
 config.read('eray.conf')
@@ -14,6 +15,9 @@ def dump_config():
         print(key + " " + config['devices'][key])
 
     for key in config['commands']:
+        print(key + " " + config['commands'][key])
+
+    for key in config['actions']:
         print(key + " " + config['commands'][key])
 
 ser = serial.Serial('/dev/ttyUSB0', 9600)
@@ -47,4 +51,16 @@ while True:
     except:
         command_name = "(Unknown command)"
 
-    logger.info(format(value, '06X') + ' ' + device_name + ': ' + command_name)
+    id = format(value, '06X')
+
+    logger.info(id + ' ' + device_name + ': ' + command_name)
+
+    try:
+        action = config['actions'][id]
+        try:
+            subprocess.run(action)
+            logger.info('Executed: ' + action)
+        except:
+            logger.info('Cannot execute: ' + action)
+    except Exception:
+        pass
