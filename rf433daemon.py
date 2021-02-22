@@ -5,6 +5,7 @@ import serial
 import io
 import logging
 import subprocess
+import shlex
 
 config = configparser.ConfigParser()
 config.read('eray.conf')
@@ -58,7 +59,7 @@ while True:
     try:
         action = config['actions'][id]
         try:
-            subprocess.run(action)
+            subprocess.run(shlex.split(action))
             logger.info('Executed: ' + action)
         except:
             logger.info('Cannot execute: ' + action)
